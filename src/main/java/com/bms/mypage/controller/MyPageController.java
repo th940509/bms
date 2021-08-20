@@ -52,7 +52,7 @@ public class MyPageController  {
 		
 		String memberId = "";
 		if (memberDTO != null) 	memberId = memberDTO.getMemberId(); // memberDTO가 null이 아닐때 id를 가져와 memberId에 대입
-		else 					mv.setViewName("redirect:/main/main.do"); //memberDTO가 null 일때, 세션X경우 -> main.do로 이동
+		else 					mv.setViewName("redirect:/main/main.do"); // memberDTO가 null 일때, 세션X경우 -> main.do로 이동
 		
 		mv.addObject("message", message);
 		mv.addObject("myOrderList", myPageService.listMyOrderGoods(memberId)); // T_SHOPPING_ORDER 주문테이블
@@ -72,7 +72,7 @@ public class MyPageController  {
 		mv.addObject("orderer", (MemberDTO)session.getAttribute("memberInfo"));
 		mv.addObject("myOrderList",myPageService.findMyOrderInfo(orderId));
 		
-		return mv;
+		return mv; 
 	
 	}
 	
