@@ -7,7 +7,7 @@
 	<h1>1. 주문 상세정보</h1>
 	<table class="list_view">
 		<tbody align=center>
-			<tr style="background: #33ff00">
+			<tr style="background: #C0FFFF">
 			    <td>주문번호 </td>
 			    <td>주문일자 </td>
 				<td colspan=2 class="fixed">주문상품명</td>
@@ -19,23 +19,42 @@
 			</tr>
 			<c:forEach var="item" items="${myOrderList }">
 			<tr>
-			    <td> ${item.orderId}</td>
-			    <td> <fmt:formatDate value="${item.payOrderTime}" pattern="yyyy-MM-dd"/></td>
+			    <td> ${item.orderId}</td> <!-- 주문번호 -->
+			    <td> <fmt:formatDate value="${item.payOrderTime}" pattern="yyyy-MM-dd"/></td> <!-- 주문일자 -->
 				<td class="goods_image">
-				  <a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">
+				  <a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }"> <!-- 주문상품 / 클릭 시 상품정보로 이동 -->
 				    <img width="50px" alt="img"  src="${contextPath}/thumbnails.do?goodsId=${item.goodsId}&fileName=${item.goodsFileName}">
 				  </a>
 				</td>
 				<td>
 				  <h2>
-				     <a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">${item.goodsTitle }</a>
+				     <a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">${item.goodsTitle }</a><!-- 주문상품명 / 클릭 시 상품정보로 이동-->
 				  </h2>
 				</td>
-				<td><h2>${item.orderGoodsQty }개</h2></td>
-				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원 (10% 할인)</h2></td>
-				<td><h2>0원</h2></td>
-				<td><h2>${1500 * item.orderGoodsQty }원</h2></td>
-				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원</h2></td>
+				<td><h2>${item.orderGoodsQty }개</h2></td><!-- 수량 -->
+				<td>
+					<c:forEach var="item2" items="${deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2>${item.orderGoodsQty *item.goodsSalesPrice}원 
+						<fmt:formatNumber value="${100-(item2.goodsSalesPrice*100) div item2.goodsPrice  }" pattern=".0"/> %할인</h2><!-- 주문금액 / 할인률 (소수점1자리까지)-->
+					</c:if>
+					</c:forEach>
+				</td>
+				<td><!-- 배송비 -->
+					<c:forEach var="item2" items="${deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2> ${item2.goodsDeliveryPrice }원</h2>
+					</c:if>
+					</c:forEach>
+				</td>
+				<td><!-- 예상적립금 -->
+					<c:forEach var="item2" items="${deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2>${item2.goodsPoint * item.orderGoodsQty }원</h2>
+					</c:if>
+					</c:forEach>
+				</td> 
+				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원</h2></td> <!-- 주문금액합계 -->
 			</tr>
 			</c:forEach>
 		</tbody>

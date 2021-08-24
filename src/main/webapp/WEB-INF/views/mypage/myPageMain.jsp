@@ -17,17 +17,17 @@
 
 	function fn_cancel_order(orderId){
 		
-		var answer = confirm("주문을 취소하시겠습니까?");
+		var answer = confirm("주문을 취소하시겠습니까?"); //confirm 확인창 띄우는 기능
 		
 		if (answer) {
-			var formObj = document.createElement("form");
-			var i_orderId = document.createElement("input");
+			var formObj = document.createElement("form");    // form 태그
+			var i_orderId = document.createElement("input"); // input 태그
 			
-		    i_orderId.name = "orderId";
+		    i_orderId.name = "orderId"; // <input type=? name="orderId" value=orderId값"/>
 		    i_orderId.value = orderId;
 			
-		    formObj.appendChild(i_orderId);
-		    document.body.appendChild(formObj); 
+		    formObj.appendChild(i_orderId); //마지막 노드에  추가한다는 의미
+		    document.body.appendChild(formObj); //body에 가장 아래, 즉 </body>태그의 바로 위에 input 태그를 추가
 		    formObj.method="post";
 		    formObj.action="${contextPath}/mypage/cancelMyOrder.do";
 		    formObj.submit();	

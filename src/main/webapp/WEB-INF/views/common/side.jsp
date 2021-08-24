@@ -17,7 +17,7 @@
 		</li>
 		<br><br><br>
 	</c:when>
-	<c:when test="${side_menu=='my_page'}">
+	<c:when test="${side_menu=='my_page'}"> <!-- MyPageController에서 side_menu에 mypage대입 --> 
 		<li>
 			<h3>정보내역</h3>
 			<ul>
@@ -32,9 +32,14 @@
 		<li>
 			<h3>목록 보기</h3>
 			<ul>
-				<li><a href="${contextPath}/main/main.do">베스트셀러</a></li>
-				<li><a href="${contextPath}/main/main.do">스테디셀러</a></li>
-				<li><a href="${contextPath}/main/main.do">신간</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=bestseller">베스트셀러</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=steadyseller">스테디셀러</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=newbook">신간</a></li>
+				<li>-----------------</li>
+				<li><a href="${contextPath}/goods/searchGoods.do">it</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do">소설/시</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do">여행</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do">어린이</a></li>
 			</ul>
 		</li>
 		<br><br><br>

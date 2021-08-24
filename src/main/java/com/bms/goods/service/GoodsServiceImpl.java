@@ -47,8 +47,8 @@ public class GoodsServiceImpl implements GoodsService{
 	
 	
 	
-	public List<String> keywordSearch(String keyword) throws Exception {
-		return goodsDAO.selectKeywordSearch(keyword);
+	public List<String> keywordSearch(String searchWord) throws Exception {
+		return goodsDAO.selectKeywordSearch(searchWord);
 	}
 	
 	

@@ -8,11 +8,10 @@
 </head>
 <body>
 	<hgroup>
-		<h1>컴퓨터와 인터넷</h1>
-		<h2>오늘의 책</h2>
+		<h1>"${searchWord }" 로 검색한 결과</h1>
 	</hgroup>
+	<h3 align="center">오늘의 책</h3>
 	<section id="new_book">
-		<h3>새로나온 책</h3>
 		<div id="left_scroll">
 			<a href='javascript:slide("left");'><img src="${contextPath}/resources/image/left.gif"></a>
 		</div>
@@ -33,7 +32,7 @@
 						<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId}">
 						<img width="75" alt="상품명" src="${contextPath}/thumbnails.do?goodsId=${item.goodsId}&fileName=${item.goodsFileName}">
 						</a>
-						<div class="sort">[컴퓨터 인터넷]</div>
+						<div class="sort">[${item.goodsSort }]</div>
 						<div class="title">
 							<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId}">
 							  ${item.goodsTitle}
@@ -43,7 +42,7 @@
 						<div class="price">
 							<span><fmt:formatNumber  value="${item.goodsPrice}" type="number" /></span> <br>
 							<fmt:formatNumber value="${item.goodsSalesPrice}" type="number"  />
-				            (<fmt:formatNumber value="${(item.goodsPrice - item.goodsSalesPrice) / item.goodsPrice * 10}"/>%할인)
+				            (<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item.goodsPrice  }" pattern=".0"/> %할인)
 						</div>
 					</div>
 				</li>
@@ -59,7 +58,7 @@
 		<input id="hidden_auto_slide_seconds" type="hidden" value="0">
 		<div class="clear"></div>
 	</section>
-	<table id="list_view">
+	<table id="list_view"> <!-- 검색결과 -->
 		<tbody>
 		  <c:forEach var="item" items="${goodsList}"> 
 			<tr align="center">
@@ -80,9 +79,10 @@
 				<td class="price">
 					<span><fmt:formatNumber  value="${item.goodsPrice}" type="number" /></span> <br>
 					<fmt:formatNumber value="${item.goodsSalesPrice}" type="number"  /><br>
-		            (<fmt:formatNumber value="${(item.goodsPrice - item.goodsSalesPrice) / item.goodsPrice * 10}"/>%할인)
+		            (<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item.goodsPrice  }" pattern=".0"/>%할인)
 				</td>
 			</tr>
 			</c:forEach>
+			
 		</tbody>
 	</table>

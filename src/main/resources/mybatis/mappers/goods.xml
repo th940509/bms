@@ -66,17 +66,22 @@
 		]]>
 	</select>	
 	
-	<select id="selectKeywordSearch" resultType="String" parameterType="String"  >
+	<select id="selectKeywordSearch" resultType="GoodsDTO" parameterType="String"  >
 	    <![CDATA[
 	       
-	       	SELECT 
-	        		GOODS_TITLE 
-	        FROM 
-	        		T_SHOPPING_GOODS 
-	        WHERE         
-	        		GOODS_TITLE LIKE '%'|| #{keyword} || '%'
-	        ORDER BY 
-	        		GOODS_CREDATE DESC
+         SELECT 
+         		T.*
+         FROM ( SELECT 
+         				G.*,
+         				D.FILE_NAME AS goodsFileName
+         		FROM 
+         				T_SHOPPING_GOODS G 
+         					  INNER JOIN T_GOODS_DETAIL_IMAGE D
+        							  ON G.GOODS_ID = D.GOODS_ID 
+        							 AND D.FILE_TYPE = 'main_image' 
+        							 AND G.GOODS_STATUS = #{searchWord}
+            	ORDER BY 
+            			G.GOODS_CREDATE DESC) T
 		]]>
 	</select>
 	

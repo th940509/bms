@@ -83,8 +83,8 @@
 <body>
 
 
-	<h1>컴퓨터와 인터넷</h1>
-	<h2>국내외 도서 &gt; 컴퓨터와 인터넷 &gt; 웹 개발</h2>
+	<h1>${goods.goodsStatus }</h1>
+	<h2>${goods.goodsSort }</h2>
 	<h3>${goods.goodsTitle }</h3>
 	<h4>${goods.goodsWriter} &nbsp; 저| ${goods.goodsPublisher}</h4>
 	<div id="goods_image">
@@ -110,10 +110,6 @@
 				<tr>
 					<td class="fixed">포인트적립</td>
 					<td class="active">${goods.goodsPoint}P 적립</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed">포인트 추가적립</td>
-					<td class="fixed">만원 이상 구매시 1,000P 추가 적립<br>5만원 이상 구매시 2,000P 추가 적립<br>편의점 배송 이용시 300P 추가 적립</td>
 				</tr>
 				<tr>
 					<td class="fixed">발행일</td>
@@ -145,7 +141,7 @@
 				</tr>
 				<tr>
 					<td class="fixed">도착예정일</td>
-					<td class="fixed">지금 주문 시 내일 도착 예정</td>
+					<td class="fixed"><fmt:formatDate value="${goods.goodsDeliveryDate }" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				<tr>
 					<td class="fixed">수량</td>

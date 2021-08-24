@@ -9,6 +9,7 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
  <script>
  
+ 	//도로명 주소 검색
     function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -57,7 +58,7 @@
 	    if (confirmLeaveMember) 
 	    	location.href="${contextPath}/mypage/deleteMyInfo.do?memberId=" + memberId + "&delYn=" + delYn;
 	}
-	
+	// 수정버튼 클릭 시 
 	function fn_modify_member_info(attribute) {
 		
 		var value = "";
@@ -199,8 +200,8 @@
 					<td>
 						<input name="memberId" id="memberId" type="text" class="form-control"  value="${memberInfo.memberId}"  disabled/>
 					</td>
-					 <td>
-					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  disabled onClick="fn_modify_member_info('memberId')" />
+					 <td align="center">
+					  <input type="button" value="ID수정불가" class="btn btn-outline-primary btn-sm"  disabled onClick="fn_modify_member_info('memberId')" />
 					</td>
 				</tr>
 				<tr>
@@ -208,7 +209,7 @@
 					<td>
 					  <input name="memberPw" type="password" class="form-control" value="${memberInfo.memberPw }" />
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('memberPw')" />
 					</td>
 				</tr>
@@ -217,7 +218,7 @@
 					<td>
 					  <input name="memberName" type="text" class="form-control" value="${memberInfo.memberName }"  />
 					 </td>
-					 <td>
+					 <td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('memberName')" />
 					</td>
 				</tr>
@@ -229,7 +230,7 @@
 				      <input type="radio" name="memberGender" class="custom-control-input" value="102" <c:if test="${memberInfo.memberGender eq '102' }">checked </c:if> />
 					  <label class="custom-control-label" for="g2">여성</label>
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('memberGender')" />
 					</td>
 				</tr>
@@ -288,7 +289,7 @@
 						</c:otherwise>
 						</c:choose>
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('memberBirth')" />
 					</td>
 				</tr>
@@ -319,7 +320,7 @@
 					    - <input type="text" class="form-control"  name="tel2" value="${memberInfo.tel2 }" style="display:inline; width:70px; padding:0"> 
 					    - <input type="text" class="form-control"  name="tel3" value="${memberInfo.tel3 }" style="display:inline; width:70px; padding:0">
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('tel')" />
 					</td>
 				</tr>
@@ -349,7 +350,7 @@
 						</c:otherwise>
 					 </c:choose>	
 				    </td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('hp')" />
 					</td>	
 				</tr>
@@ -376,7 +377,7 @@
 						</c:otherwise>
 					 </c:choose>
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('email')" />
 					</td>
 				</tr>
@@ -393,7 +394,7 @@
 						   <span id="guide" style="color:#999"></span>
 					   </p>
 					</td>
-					<td>
+					<td align="center">
 					  <input type="button" value="수정" class="btn btn-outline-primary btn-sm"  onClick="fn_modify_member_info('address')" />
 					</td>
 				</tr>

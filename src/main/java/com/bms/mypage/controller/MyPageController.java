@@ -42,10 +42,10 @@ public class MyPageController  {
 	@RequestMapping(value="/myPageMain.do" , method = RequestMethod.GET)
 	public ModelAndView myPageMain(@RequestParam(required = false , value="message") String message, HttpServletRequest request)  throws Exception {
 		
-		HttpSession session = request.getSession(); // 세션적용
+		HttpSession session = request.getSession(); // 세션객체 생성
 		
 		session = request.getSession();
-		session.setAttribute("side_menu", "my_page");
+		session.setAttribute("side_menu", "my_page"); // tiles의 side
 		
 		ModelAndView mv = new ModelAndView("/mypage/myPageMain"); // 괄호 안의 jsp 페이지로 이동
 		memberDTO=(MemberDTO)session.getAttribute("memberInfo"); // 로그인한 회원 정보 DTO 대입
@@ -63,13 +63,14 @@ public class MyPageController  {
 	
 	
 	@RequestMapping(value="/myOrderDetail.do" , method = RequestMethod.GET)
-	public ModelAndView myOrderDetail(@RequestParam("orderId") String orderId,HttpServletRequest request)  throws Exception {
+	public ModelAndView myOrderDetail(@RequestParam("orderId") String orderId, HttpServletRequest request)  throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/mypage/myOrderDetail");
-		HttpSession session=request.getSession();
+		HttpSession session=request.getSession(); // 세션객체 생성
 		
 		mv.addObject("orderer", (MemberDTO)session.getAttribute("memberInfo"));
+		mv.addObject("deliveryPrice", myPageService.MyOrderDeliveryPrice(orderId));
 		mv.addObject("myOrderList",myPageService.findMyOrderInfo(orderId));
 		
 		return mv; 
@@ -84,30 +85,44 @@ public class MyPageController  {
 		mv.setViewName("/mypage/listMyOrderHistory");
 		
 		HttpSession session = request.getSession();
-		memberDTO = (MemberDTO)session.getAttribute("memberInfo");
+		memberDTO = (MemberDTO)session.getAttribute("memberInfo"); // 로그인된 정보 / 아이디 대입
 		String memberId = memberDTO.getMemberId();
 		
 		String fixedSearchPeriod = dateMap.get("fixedSearchPeriod");
-		String beginDate = "";
-		String endDate   = "";
+		String search_word="";
+		String search_type        = dateMap.get("search_type");
+		search_word        = dateMap.get("search_word");
+		String beginDate = ""; // 시작날짜
+		String endDate   = ""; // 현재날짜
 		
-		String [] tempDate = commonUtil.calcSearchPeriod(fixedSearchPeriod).split(",");
+		if(dateMap.get("beginDate") == null && dateMap.get("endDate") == null){
+		String [] tempDate = commonUtil.calcSearchPeriod(fixedSearchPeriod).split(","); // return값 beginDate + "," + endDate; -> split -> , 기준으로 beginDate endDate
 		beginDate = tempDate[0];
 		endDate   = tempDate[1];
-		dateMap.put("beginDate", beginDate);
-		dateMap.put("endDate", endDate);
-		dateMap.put("memberId", memberId);
-		List<OrderDTO> myOrderHistList = myPageService.listMyOrderHistory(dateMap);
+		}
+		else {
+			beginDate = dateMap.get("beginDate");
+			endDate = dateMap.get("endDate");
+		}
 		
-		String beginDate1[] = beginDate.split("-");
+		Map<String,Object> condMap = new HashMap<String,Object>();
+		
+		condMap.put("beginDate", beginDate);
+		condMap.put("endDate", endDate);
+		condMap.put("search_type", search_type);
+		condMap.put("search_word", search_word);
+		condMap.put("memberId", memberId);
+		List<OrderDTO> myOrderHistList = myPageService.listMyOrderHistory(condMap);
+		mv.addObject("myOrderHistList", myOrderHistList); // 날짜에 맞는 주문 정보 리스트
+		
+		String beginDate1[] = beginDate.split("-"); // 년 월 일 쪼개기
 		String endDate1[]   = endDate.split("-");
-		mv.addObject("beginYear",beginDate1[0]);
-		mv.addObject("beginMonth",beginDate1[1]);
-		mv.addObject("beginDay",beginDate1[2]);
-		mv.addObject("endYear",endDate1[0]);
-		mv.addObject("endMonth",endDate1[1]);
-		mv.addObject("endDay",endDate1[2]);
-		mv.addObject("myOrderHistList", myOrderHistList);
+		mv.addObject("beginYear",beginDate1[0]); // 시작 년
+		mv.addObject("beginMonth",beginDate1[1]); // 월
+		mv.addObject("beginDay",beginDate1[2]); // 일
+		mv.addObject("endYear",endDate1[0]); // 현재 년
+		mv.addObject("endMonth",endDate1[1]); // 월
+		mv.addObject("endDay",endDate1[2]); // 일
 		return mv;
 		
 	}	
@@ -117,7 +132,7 @@ public class MyPageController  {
 	public ModelAndView cancelMyOrder(@RequestParam("orderId") String orderId)  throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
-		myPageService.cancelOrder(orderId);
+		myPageService.cancelOrder(orderId); // 주문취소한 주문자아이디 받아오기 post도 처리
 		mv.addObject("message", "cancel_order");
 		mv.setViewName("redirect:/mypage/myPageMain.do");
 		
@@ -202,7 +217,7 @@ public class MyPageController  {
 		mv.setViewName("redirect:/main/main.do");
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
+		session.invalidate(); // 세션 끊기
 		
 		HashMap<String,String> memberMap = new HashMap<String,String>();
 		memberMap.put("delYn"   , delYn);

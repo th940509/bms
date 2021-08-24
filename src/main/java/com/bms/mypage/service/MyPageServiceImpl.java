@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bms.goods.dto.GoodsDTO;
 import com.bms.member.dto.MemberDTO;
 import com.bms.mypage.dao.MyPageDAO;
 import com.bms.order.dto.OrderDTO;
@@ -29,8 +30,8 @@ public class MyPageServiceImpl  implements MyPageService {
 	}
 	
 	
-	public List<OrderDTO> listMyOrderHistory(Map<String,String> dateMap) throws Exception{
-		return myPageDAO.selectMyOrderHistoryList(dateMap);
+	public List<OrderDTO> listMyOrderHistory(Map<String,Object> condMap) throws Exception{
+		return myPageDAO.selectMyOrderHistoryList(condMap);
 	}
 	
 	
@@ -49,5 +50,13 @@ public class MyPageServiceImpl  implements MyPageService {
 	public MemberDTO myDetailInfo(String memberId) throws Exception{
 		return myPageDAO.selectMyDetailInfo(memberId);
 	}
+
+
+	@Override
+	public List<GoodsDTO> MyOrderDeliveryPrice(String orderId) throws Exception {
+		return myPageDAO.deliveryPrice(orderId);
+	}
+
+
 	
 }

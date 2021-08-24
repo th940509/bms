@@ -25,25 +25,35 @@ import net.coobird.thumbnailator.Thumbnails;
 @Controller
 public class FileController {
 	
-	//private static final String CURR_IMAGE_REPO_PATH = "C:\\file_repo";
-	//String seperatorPath = "\\";	// window
+	private static final String CURR_IMAGE_REPO_PATH = "C:\\file_repo";
+	String seperatorPath = "\\";	// window
 
-	private static final String CURR_IMAGE_REPO_PATH = "/var/lib/tomcat8/file_repo";
-	String seperatorPath = "/";		// linux
+	//private static final String CURR_IMAGE_REPO_PATH = "/var/lib/tomcat8/file_repo";
+	//String seperatorPath = "/";		// linux
 	
 	
 	@RequestMapping("/download")
 	public void download(@RequestParam("fileName") String fileName,
 		                 	@RequestParam("goodsId") String goodsId,
 			                 HttpServletResponse response) throws Exception {
-		
+		// 다운로드 할 이미지 파일 이름 전달(param)
 		OutputStream out = response.getOutputStream();
+		                                         //파일구분자
 		String filePath = CURR_IMAGE_REPO_PATH + seperatorPath + goodsId + seperatorPath + fileName;
+		
+		// 다운로드할 파일 객체 생성
 		File image = new File(filePath);
-
+		
+		// *브라우저 캐싱 방지 (정보가 남는 것 방지)		
 		response.setHeader("Cache-Control","no-cache");
+		
+		// content-disposition에 attachment, filename을 주는 경우 Body에서 오는 값을 다운받으라는 의미
 		response.addHeader("Content-disposition", "attachment; fileName="+fileName);
+		// FileInputStream 
+		// 자바에서는 파일에서 바이트 단위로 입력할 수 있도록 하기 위해 이 클래스를 제공함. 객체를 생성할 때 데이터를 읽어올 파일을 지정
 		FileInputStream in = new FileInputStream(image); 
+		
+		// 버퍼를 이용해 한번에 8kbyte씩 브라우저로 전송한다.
 		byte[] buffer = new byte[1024*8];
 		while (true){
 			int count = in.read(buffer); 
@@ -67,9 +77,9 @@ public class FileController {
 
 		String filePath = CURR_IMAGE_REPO_PATH + seperatorPath + goodsId + seperatorPath + fileName;
 		
-		File image = new File(filePath);
+		File image = new File(filePath); // 파일객체 생성
 
-		if (image.exists()) { 
+		if (image.exists()) {                     // toOutputStream (다운로드나 웹브라우저 경로가 아님 스트립으로 이미지 표현)
 			Thumbnails.of(image).size(121,154).outputFormat("png").toOutputStream(out);
 		}
 		

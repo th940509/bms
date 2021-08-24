@@ -39,7 +39,21 @@ public class GoodsController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/goods/searchGoods");
-		mv.addObject("goodsList", goodsService.searchGoods(searchWord));
+		
+		if(searchWord.equals("bestseller")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("steadyseller")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("newbook")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else {
+			mv.addObject("goodsList", goodsService.searchGoods(searchWord));
+		}
+		mv.addObject("searchWord",searchWord);
+		//mv.addObject("keyword", keyword);
 		
 		return mv;
 		

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.bms.goods.dto.GoodsDTO;
 import com.bms.member.dto.MemberDTO;
 import com.bms.order.dto.OrderDTO;
 
@@ -28,8 +29,8 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}	
 
 	
-	public List<OrderDTO> selectMyOrderHistoryList(Map<String,String> dateMap) throws DataAccessException{
-		return sqlSession.selectList("mapper.mypage.selectMyOrderHistoryList",dateMap);
+	public List<OrderDTO> selectMyOrderHistoryList(Map<String,Object> condMap) throws DataAccessException{
+		return sqlSession.selectList("mapper.mypage.selectMyOrderHistoryList",condMap);
 	}
 	
 	
@@ -46,4 +47,11 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public void updateMyOrderCancel(String orderId) throws DataAccessException{
 		sqlSession.update("mapper.mypage.updateMyOrderCancel",orderId);
 	}
+
+
+	@Override
+	public List<GoodsDTO> deliveryPrice(String orderId) throws DataAccessException {
+		return sqlSession.selectList("mapper.mypage.deliveryPrice", orderId);
+	}
+
 }

@@ -9,7 +9,7 @@ public interface GoodsService {
 	
 	public Map<String,List<GoodsDTO>> listGoods() throws Exception;
 	public Map<String,Object> goodsDetail(String goodsId) throws Exception;
-	public List<String> keywordSearch(String keyword) throws Exception;
+	public List<String> keywordSearch(String searchWord) throws Exception;
 	public List<GoodsDTO> searchGoods(String searchWord) throws Exception;
 	
 }
