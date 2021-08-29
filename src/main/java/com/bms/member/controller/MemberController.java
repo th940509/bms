@@ -1,17 +1,22 @@
 package com.bms.member.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bms.member.dto.MemberDTO;
+import com.bms.member.dto.SessionConfigVO;
 import com.bms.member.service.MemberService;
 
 @Controller("memberController")
@@ -31,8 +37,47 @@ public class MemberController {
 	@Autowired
 	private MemberDTO memberDTO;
 	
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@RequestMapping(value="/main/kakao_login.ajax")
+    public String kakaoLogin() {
+        StringBuffer loginUrl = new StringBuffer();
+        loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
+        loginUrl.append("92cee331f59ec3f9d00edce444e0347e"); 
+        loginUrl.append("&redirect_uri=");
+        loginUrl.append("http://localhost:8090/member/kakaocallback"); 
+        loginUrl.append("&response_type=code");
+        
+        return "redirect:"+loginUrl.toString();
+    }
+	
+	@RequestMapping(value = "/kakaocallback", method = RequestMethod.GET)
+    public String redirectkakao(@RequestParam String code, HttpSession session) throws Exception {
+            System.out.println(code);
+            
+            //접속토큰 get
+            String kakaoToken = memberService.getReturnAccessToken(code);
+            
+            //접속자 정보 get
+            Map<String,Object> result = memberService.getUserInfo(kakaoToken);
+            System.out.println("컨트롤러 출력"+result.get("nickname")+result.get("profile_image"));
+            //SessionConfigVO configVO =new SessionConfigVO();
+           //configVO.setNickname((String)result.get("nickname"));
+            //configVO.setProfile_img((String)result.get("profile_image"));
+            String nickname = (String) result.get("nickname");
+            String profile_image = (String)result.get("profile_image");
+            //session.setAttribute("sessionConfigVO", configVO);
+            session.setAttribute("nickname", nickname);
+            session.setAttribute("profile_image", profile_image);
+            session.setAttribute("isLogOn", true);
+            /*로그아웃 처리 시, 사용할 토큰 값*/
+            session.setAttribute("kakaoToken", kakaoToken);
+        return "redirect:/";
+    }
+
+	
 	
 	@RequestMapping(value="/login.do" , method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request) throws Exception {
@@ -47,10 +92,9 @@ public class MemberController {
 			session.setAttribute("isLogOn", true);			// 로그인 true
 			session.setAttribute("memberInfo",memberDTO);	// memberInfo에 로그인한 계정의 정보등록
 			String action = (String)session.getAttribute("action");
-			// OrderController(value="/orderEachGoods.do") >> return new ModelAndView("redirect:/member/loginForm.do");
-			// 로그인을 하지 않고 구매하기를 눌렀을 경우 , 로그인 시 바로 주문상품으로 이동
+			
 			if (action!=null && action.equals("/order/orderEachGoods.do")){ // 주문상품으로 이동
-				mv.setViewName("forward:"+action); // 해당하는 jsp 파일로 이동 / forward: 주소 변동이 되지 X
+				mv.setViewName("forward:"+action); // 해당하는 파일로 이동 
 			}
 			else {
 				mv.setViewName("redirect:/main/main.do");	// 메인으로 이동
@@ -64,15 +108,32 @@ public class MemberController {
 		
 	}
 	
+
+	
 	
 	@RequestMapping(value="/logout.do" , method = RequestMethod.GET)
-	public ModelAndView logout(HttpServletRequest request) throws Exception {
+	public ModelAndView logout(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
 		HttpSession session = request.getSession();
 		
+		if(session.getAttribute("nickname") != null && session.getAttribute("profile_image") != null) {
+			session.setAttribute("isLogon", false);
+			String kakaoToken = (String)session.getAttribute("kakaoToken");
+			memberService.getLogout(kakaoToken);
+			
+			session.removeAttribute("nickname");
+			session.removeAttribute("profile_image");
+			session.removeAttribute("kakaoToken");
+			
+			
+			
+			mv.setViewName("redirect:/main/main.do");
+			return mv;
+		}
 		session.setAttribute("isLogOn", false); // 로그인 false
 		session.removeAttribute("memberInfo"); // 세션 끊기
+		
 		
 		mv.setViewName("redirect:/main/main.do");
 		
@@ -130,6 +191,7 @@ public class MemberController {
 	public ModelAndView memberForm() throws Exception {
 		return new ModelAndView("/member/memberForm");
 	}
+	
 	
 
 }

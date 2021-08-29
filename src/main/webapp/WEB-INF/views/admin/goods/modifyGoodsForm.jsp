@@ -67,7 +67,8 @@
 		});
 	}
 
-	 function readURL(input,preview) {
+	//이미지 미리보기 함수 preview -> id
+	 function readURL(input,preview) { 
 	   if (input.files && input.files[0]) {
 	       var reader = new FileReader();
 	       reader.onload = function (e) {
@@ -186,6 +187,11 @@
 								<select name="goodsSort" class="form-control" style="height:30; padding:0">
 									<option value="컴퓨터와 인터넷" <c:if test="${goods.goodsSort=='컴퓨터와 인터넷' }">selected </c:if>> 컴퓨터와인터넷</option>
 									<option value="디지털 기기"  <c:if test="${goods.goodsSort=='디지털 기기' }">selected </c:if>>디지털기기</option>
+									<option value="IT"  <c:if test="${goods.goodsSort=='IT' }">selected </c:if>>IT</option>
+									<option value="소설"  <c:if test="${goods.goodsSort=='소설' }">selected </c:if>>소설</option>
+									<option value="시"  <c:if test="${goods.goodsSort=='시' }">selected </c:if>>시</option>
+									<option value="여행"  <c:if test="${goods.goodsSort=='여행' }">selected </c:if>>여행</option>
+									<option value="어린이"  <c:if test="${goods.goodsSort=='어린이' }">selected </c:if>>어린이</option>
 								</select>
 							</td>
 							<td><input type="button" class="btn btn-outline-primary btn-sm" value="수정" onClick="fn_modify_goods('${goods.goodsId }','goodsSort')" /></td>
@@ -316,7 +322,7 @@
 						<th colspan="2">이미지 미리보기</th>
 						<th>이미지 수정</th>
 					</tr>
-					<c:forEach var="item" items="${imageFileList}" varStatus="itemNum">
+					<c:forEach var="item" items="${imageFileList}" varStatus="itemNum"> <!-- ${itemNum.count} 배열을 한개씩 불러오겠다. -->
 						<c:choose>
 							<c:when test="${item.fileType=='main_image'}">
 								<tr>

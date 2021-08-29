@@ -8,6 +8,7 @@
 
 	var cnt = 0;
 	
+	//파일 추가 if(처음 파일 추가 선택 메인 이미지) , else 디테일 이미지 여러게
 	function fn_addFile(){
 		
 		if (cnt == 0) $("#target_add_file").append("<br>"+"<input  type='file' name='main_image' id='f_main_image' />");	  
@@ -41,7 +42,7 @@
 </style>
 </head>
 <body>
-	<form action="${contextPath}/admin/goods/addNewGoods.do" method="post"  enctype="multipart/form-data">
+	<form action="${contextPath}/admin/goods/addNewGoods.do" method="post"  enctype="multipart/form-data"> <!-- 모든 문자를 인코딩하지 않음을 명시함.이 방식은 <form> 요소가 파일이나 이미지를 서버로 전송할 때 주로 사용함. -->
 	<h1>새상품 등록창</h1>
 	<div class="tab_container">
 	<div class="tab_container" id="container">
@@ -63,6 +64,11 @@
 							<select name="goodsSort" class="form-control" style="padding-bottom:0; padding-top:0; height:35px">
 								<option value="컴퓨터와 인터넷" selected>컴퓨터와 인터넷
 								<option value="디지털 기기">디지털 기기
+								<option value="IT">IT
+								<option value="소설">소설
+								<option value="시">시
+								<option value="여행">여행
+								<option value="어린이">어린이
 							</select>
 						</td>
 					</tr>

@@ -19,6 +19,10 @@
 			   <li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 			   <li><a href="${contextPath}/mypage/myPageMain.do">마이페이지</a></li>
 			 </c:when>
+		     <c:when test="${isLogOn==true and not empty nickname and not empty profile_image }">
+			   <li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
+			   <li><a href="${contextPath}/mypage/myPageMain.do">마이페이지</a></li>
+			 </c:when>
 			 <c:otherwise>
 			   <li><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 			   <li><a href="${contextPath}/member/memberForm.do">회원가입</a></li> 

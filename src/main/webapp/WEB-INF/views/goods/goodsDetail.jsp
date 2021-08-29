@@ -40,11 +40,10 @@
 	function fn_order_each_goods(goodsId,goodsTitle,goodsSalesPrice,fileName){
 	
 		var orderGoodsQty = document.getElementById("orderGoodsQty");
-		var isLogOn = document.getElementById("isLogOn").value;
+		var isLogOn = document.getElementById("isLogOn").value; // hidden값으로 보냄
 		
 		if (isLogOn=="false" || isLogOn=='' ){
 			alert("로그인 후 주문이 가능합니다.");
-			return;
 		} 
 		
 		var formObj	            = document.createElement("form");
@@ -104,7 +103,8 @@
 				<tr class="dot_line">
 					<td class="fixed">판매가</td>
 					<td class="active">
-						<span><fmt:formatNumber value="${goods.goodsPrice*0.9}" type="number" var="discountedPrice" /> ${discountedPrice}원(10%할인)</span>
+						${goods.goodsSalesPrice}원
+						(<fmt:formatNumber value="${100-(goods.goodsSalesPrice*100) div goods.goodsPrice  }" pattern="00"/>%할인)</span>
 				    </td>
 				</tr>
 				<tr>

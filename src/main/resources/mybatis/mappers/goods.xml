@@ -19,7 +19,7 @@
             	ORDER BY 
             			G.GOODS_CREDATE DESC) T
 	      WHERE   
-	      		ROWNUM < 16
+	      		ROWNUM < 9
 	    ]]>
 	</select>
 	
@@ -83,6 +83,20 @@
             	ORDER BY 
             			G.GOODS_CREDATE DESC) T
 		]]>
+	</select>
+	
+	<select id="todayBook" resultType="GoodsDTO">
+		<![CDATA[
+			SELECT 
+					G.*,
+					D.FILE_NAME AS goodsFileName
+			FROM 
+					T_SHOPPING_GOODS G
+					      INNER JOIN T_GOODS_DETAIL_IMAGE D
+		    					  ON G.GOODS_ID = D.GOODS_ID
+		    					  AND G.GOODS_STATUS = 'newbook'
+		]]>
+		
 	</select>
 	
 </mapper>

@@ -14,5 +14,5 @@ public interface GoodsDAO {
 	public List<GoodsDTO> selectGoodsBySearchWord(String searchWord) throws DataAccessException;
 	public GoodsDTO selectGoodsDetail(String goodsId) throws DataAccessException;
 	public List<ImageFileDTO> selectGoodsDetailImage(String goodsId) throws DataAccessException;
-
+	public List<GoodsDTO> todayBook () throws DataAccessException;
 }

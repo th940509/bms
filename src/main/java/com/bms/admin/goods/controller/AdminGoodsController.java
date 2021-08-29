@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -76,12 +77,14 @@ public class AdminGoodsController {
 		String beginDate         = "";
 		String endDate           = "";
 		
+		//간편조회
 		if (dateMap.get("beginDate") == null && dateMap.get("endDate") == null ) {
 			tempDate = commonUtil.calcSearchPeriod(fixedSearchPeriod).split(",");
 			beginDate = tempDate[0];
 			endDate = tempDate[1];
 		} 
-		else {
+		//상세조회
+		else  {
 			beginDate = dateMap.get("beginDate");
 			endDate = dateMap.get("endDate");
 		}
@@ -124,15 +127,15 @@ public class AdminGoodsController {
 		String imageFileName = "";
 		
 		Map<String,Object> newGoodsMap = new HashMap<String,Object>();
-		Enumeration<?> enu = multipartRequest.getParameterNames();
-		while (enu.hasMoreElements()){
-			String name  = (String)enu.nextElement();
+		Enumeration<?> enu = multipartRequest.getParameterNames(); //모든 파라미터 이름을 Enumeration 으로 반환 한다.
+		while (enu.hasMoreElements()){ //읽어올 요소가 남아있는지 확인. 있으면 true, 없으면 false.
+			String name  = (String)enu.nextElement(); //열거에 1개 이상의 요소가 남아 있는 경우는 다음의 요소를 리턴합니다.
 			String value = multipartRequest.getParameter(name);
-			newGoodsMap.put(name,value);
+			newGoodsMap.put(name,value); // addNewGoods.jsp에서 받아온 요소 값들을 모두 map에 put
 		}
 		
 		HttpSession session = multipartRequest.getSession();
-		MemberDTO memberDTO = (MemberDTO) session.getAttribute("memberInfo");
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 계정 정보 memberInfo 불러오기
 		
 		
 		List<ImageFileDTO> imageFileList = fileController.upload(multipartRequest);
@@ -150,7 +153,7 @@ public class AdminGoodsController {
 					imageFileName = imageFileDTO.getFileName();
 					File srcFile = new File(CURR_IMAGE_REPO_PATH + seperatorPath + "temp" + seperatorPath + imageFileName); // 파일생성
 					File destDir = new File(CURR_IMAGE_REPO_PATH + seperatorPath + goodsId);								// 폴더생성
-					FileUtils.moveFileToDirectory(srcFile, destDir,true);													// 파일 이동
+					FileUtils.moveFileToDirectory(srcFile, destDir,true);			// 마지막인자를 true로 했을시 디렉토리가 없으면 생성함. false로 했을시 디렉토리가 없으면 IOException 이 나온다
 				}
 			}
 			message= "<script>";
@@ -242,19 +245,19 @@ public class AdminGoodsController {
 				}
 				
 			    adminGoodsService.modifyGoodsImage(imageFileList);
-				for (ImageFileDTO imageFileDTO : imageFileList) {
+				for (ImageFileDTO imageFileDTO : imageFileList) { //파일, 폴더 생성
 					imageFileName = imageFileDTO.getFileName();
 					File srcFile = new File(CURR_IMAGE_REPO_PATH + seperatorPath + "temp" + seperatorPath + imageFileName);
 					File destDir = new File(CURR_IMAGE_REPO_PATH + seperatorPath + goodsId);
 					FileUtils.moveFileToDirectory(srcFile, destDir,true);
 				}
 			}
-		} catch (Exception e) {
+		} catch (Exception e) { // 예외발생 시 파일 지우기
 			if (imageFileList != null && imageFileList.size() != 0) {
 				for (ImageFileDTO  imageFileDTO : imageFileList) {
 					imageFileName = imageFileDTO.getFileName();
 					File srcFile = new File(CURR_IMAGE_REPO_PATH + seperatorPath + "temp" + seperatorPath + imageFileName);
-					srcFile.delete();
+					srcFile.delete(); 
 				}
 			}
 			e.printStackTrace();
@@ -341,6 +344,7 @@ public class AdminGoodsController {
 	    Cell cell = null;
 
 	    int rowNo = 0;
+	    
 
 
 	    // 테이블 헤더용 스타일
@@ -351,9 +355,13 @@ public class AdminGoodsController {
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
 
+	    //폰트 설정
+	    Font font = wb.createFont();
+	    font.setFontName("휴먼명조");
+	    headStyle.setFont(font);
 
 	    // 노란색 배경
-	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 	    // 가운데 정렬
@@ -366,28 +374,36 @@ public class AdminGoodsController {
 	    bodyStyle.setBorderBottom(BorderStyle.THIN);
 	    bodyStyle.setBorderLeft(BorderStyle.THIN);
 	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    bodyStyle.setFont(font);
 
 
 	    // 헤더 생성
 	    row = sheet.createRow(rowNo++);
+	    
 	    cell = row.createCell(0);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("상품번호");
+	    
 	    cell = row.createCell(1);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("상품이름");
+	    
 	    cell = row.createCell(2);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("저자");
+	    
 	    cell = row.createCell(3);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("출판사");
+	    
 	    cell = row.createCell(4);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("상품가격");
+	    
 	    cell = row.createCell(5);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("입고일자");
+	    
 	    cell = row.createCell(6);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("출판일");
@@ -423,27 +439,33 @@ public class AdminGoodsController {
 	        cell = row.createCell(0);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(goodsDTO.getGoodsId());
+	        
 	        cell = row.createCell(1);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(goodsDTO.getGoodsTitle());
+	       
 	        cell = row.createCell(2);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(goodsDTO.getGoodsWriter());
+	       
 	        cell = row.createCell(3);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(goodsDTO.getGoodsPublisher());
+	       
 	        cell = row.createCell(4);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(goodsDTO.getGoodsPrice());
+	       
 	        cell = row.createCell(5);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(dateSdf.format(goodsDTO.getGoodsCredate()));
+	        
 	        cell = row.createCell(6);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(dateSdf.format(goodsDTO.getGoodsPublishedDate()));
+	        cell.setCellValue(goodsDTO.getGoodsPublishedDate());
 		} 
 
-
+		// 컨텐츠 타입과 파일명지정
 	    response.setContentType("ms-vnd/excel");
 	    response.setHeader("Content-Disposition", "attachment;filename="+makeFileName);
 

@@ -78,7 +78,6 @@
 			url += "&endDate=" + endYear + "-" + endMonth + "-" + endDay;
 			url += "&search_type=" + search_type;
 			url += "&search_word=" + search_word;
-		
 		location.href=url;
 
 	}
@@ -170,7 +169,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="0${i}">0${i}</option>
+					              <option value="${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					              <option value="${i}">${i}</option>
@@ -189,7 +188,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="0${i}">0${i}</option>
+					              <option value="${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					              <option value="${i}">${i}</option>
@@ -221,7 +220,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="0${i}">0${i}</option>
+					              <option value="${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					             <option value="${i}">${i}</option>
@@ -240,7 +239,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i<10}">
-					              <option value="0${i}">0${i}</option>
+					              <option value="${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					            <option value="${i}">${i}</option>
@@ -249,7 +248,7 @@
 					        </c:otherwise>
 					      </c:choose>
 					    </c:forEach>	
-					</select>
+					</select>일
 				  </td>
 				</tr>
 				<tr>

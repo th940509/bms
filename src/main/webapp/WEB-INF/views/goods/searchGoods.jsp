@@ -17,39 +17,38 @@
 		</div>
 		<div id="carousel_inner">
 			<ul id="carousel_ul">
-			<c:choose>
-			   <c:when test="${empty goodsList}" >
-			        <li>
-					<div id="book">
-						<h1>제품이없습니다.</h1>
-					  </div>
-				</li> 
-			   </c:when>
-			   <c:otherwise>
-			    <c:forEach var="item" items="${goodsList}" >
-			     <li>
-					<div id="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId}">
-						<img width="75" alt="상품명" src="${contextPath}/thumbnails.do?goodsId=${item.goodsId}&fileName=${item.goodsFileName}">
-						</a>
-						<div class="sort">[${item.goodsSort }]</div>
-						<div class="title">
-							<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId}">
-							  ${item.goodsTitle}
+			<c:forEach var="item2" items="${todayBookList }">
+				<c:choose>
+					<c:when test="${empty item2}">
+						<li>
+							<div id="book">
+									<h1>제품이없습니다.</h1>
+							</div>
+						</li> 
+					</c:when>
+					<c:otherwise>
+						<li>
+							<div id="book">
+							<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item2.goodsId}">
+							<img width="75" alt="상품명" src="${contextPath}/thumbnails.do?goodsId=${item2.goodsId}&fileName=${item2.goodsFileName}">
 							</a>
-						</div>
-						<div class="writer">${item.goodsWriter} | ${item.goodsPublisher}</div>
-						<div class="price">
-							<span><fmt:formatNumber  value="${item.goodsPrice}" type="number" /></span> <br>
-							<fmt:formatNumber value="${item.goodsSalesPrice}" type="number"  />
-				            (<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item.goodsPrice  }" pattern=".0"/> %할인)
-						</div>
-					</div>
-				</li>
-				</c:forEach> 
-			   </c:otherwise>
-			 </c:choose>
-			 
+							<div class="sort">[${item2.goodsSort }]</div>
+							<div class="title">
+								<a href="${contextPath}/goods/goodsDetail.do?goodsId=${item2.goodsId}">
+								  ${item2.goodsTitle}
+								</a>
+							</div>
+							<div class="writer">${item2.goodsWriter} | ${item2.goodsPublisher}</div>
+							<div class="price">
+								<span><fmt:formatNumber  value="${item2.goodsPrice}" type="number" /></span> <br>
+								<fmt:formatNumber value="${item2.goodsSalesPrice}" type="number"  />
+					            (<fmt:formatNumber value="${100-(item2.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/> %할인)
+							</div>
+							</div>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 			</ul>
 		</div>
 		<div id="right_scroll">
@@ -79,7 +78,7 @@
 				<td class="price">
 					<span><fmt:formatNumber  value="${item.goodsPrice}" type="number" /></span> <br>
 					<fmt:formatNumber value="${item.goodsSalesPrice}" type="number"  /><br>
-		            (<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item.goodsPrice  }" pattern=".0"/>%할인)
+		            (<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item.goodsPrice  }" pattern="00"/>%할인)
 				</td>
 			</tr>
 			</c:forEach>

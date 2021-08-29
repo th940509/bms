@@ -53,7 +53,7 @@ public class GoodsController {
 			mv.addObject("goodsList", goodsService.searchGoods(searchWord));
 		}
 		mv.addObject("searchWord",searchWord);
-		//mv.addObject("keyword", keyword);
+		mv.addObject("todayBookList", goodsService.todayBookList());
 		
 		return mv;
 		

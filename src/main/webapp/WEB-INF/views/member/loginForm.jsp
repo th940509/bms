@@ -34,11 +34,17 @@
 				<td><input class="form-control" id="memberPw" name="memberPw" type="password" placeholder="비밀번호를 입력하세요." /></td>
 			</tr>
 			<tr >
-				<td colspan="2" align="right"><input type="submit" class="btn btn-primary btn-sm" value="로그인"></td>
+				<td align="center">
+				<a href="${contextPath }/member/main/kakao_login.ajax">
+    			<img width="200" height="45" src="${contextPath }/resources/image/kakao_login_btn.png"/>
+				</a></td>
+				<td align="right"><input type="submit" class="btn btn-primary btn-sm" value="로그인"></td>
 			</tr>
 		</table>
+			
 		<p align="center">
    			<img src="${contextPath }/resources/image/bms_logo1.png" width=300>
+   			
    		</p>
 	</form>
 </body>

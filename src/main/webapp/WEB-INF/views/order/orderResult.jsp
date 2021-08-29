@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
@@ -19,6 +20,7 @@
 				<td>예상적립금</td>
 				<td>주문금액합계</td>
 			</tr>
+			<c:set var="item2" value="${goodsOrderList.goodsInfo.GoodsDTO }"/>
 			<c:forEach var="item" items="${myOrderList }">
 			<tr>
 			    <td> ${item.orderId }</td>
@@ -29,9 +31,10 @@
 				</td>
 				<td><h2><a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">${item.goodsTitle }</a></h2></td>
 				<td><h2>${item.orderGoodsQty }개</h2></td>
-				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원 (10% 할인)</h2></td>
-				<td><h2>0원</h2></td>
-				<td><h2>${1500 *item.orderGoodsQty }원</h2></td>
+				<td><h2>${item.goodsSalesPrice}원  <!-- 주문금액 -->
+					(<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/>%할인)</h2></h2></td>
+				<td><h2>${item2.goodsDeliveryPrice }원</h2></td>
+				<td><h2>${item2.goodsPoint*item.orderGoodsQty}P 적립</h2></td>
 				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원</h2></td>
 			</tr>
 			</c:forEach>

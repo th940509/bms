@@ -97,12 +97,12 @@ public class FileController {
 		
 		List<ImageFileDTO> fileList= new ArrayList<ImageFileDTO>();
 		Iterator<String> fileNames = multipartRequest.getFileNames();
-		
-		while (fileNames.hasNext()) {
+		//Iterator란? 자바의 컬렉션에 저장되어 있는 요소들을 읽어오는 방법의 인터페이스. 즉 컬렉션으로부터 정보를 얻어내는 인터페이스
+		while (fileNames.hasNext()) { //읽어올 요소가 남아있는지 확인하는 메소드이다. 요소가 있으면 true, 없으면 false
 			
 			ImageFileDTO imageFileDTO = new ImageFileDTO();				// 빈 파일 dto생성
 			
-			String fileName = fileNames.next();							//
+			String fileName = fileNames.next();	  						// 다음데이터 반환
 			imageFileDTO.setFileType(fileName);
 			
 			MultipartFile mFile = multipartRequest.getFile(fileName); 	// 멀티파트의 객체

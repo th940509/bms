@@ -56,5 +56,9 @@ public class GoodsServiceImpl implements GoodsService{
 		return goodsDAO.selectGoodsBySearchWord(searchWord);
 	}
 	
+	public List<GoodsDTO> todayBookList() throws Exception{
+		return goodsDAO.todayBook();
+	}
+	
 	
 }

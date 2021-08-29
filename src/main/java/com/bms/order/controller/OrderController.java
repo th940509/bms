@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bms.common.util.CommonUtil;
 import com.bms.goods.dto.GoodsDTO;
+import com.bms.goods.service.GoodsService;
 import com.bms.member.dto.MemberDTO;
 import com.bms.order.dto.OrderDTO;
 import com.bms.order.service.OrderService;
@@ -29,23 +30,27 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private GoodsService goodsService;
+	
 	
 	@RequestMapping(value="/orderEachGoods.do" ,method = RequestMethod.POST)
 	public ModelAndView orderEachGoods(@ModelAttribute("orderDTO") OrderDTO odto, HttpServletRequest request)  throws Exception{
-		
+		                            //model.addAttribute("orderDTOr", odto);랑 같은 의미?
+		// goodDetail.jsp에서 Post로 보냄
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		
 		OrderDTO orderDTO;
-		Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-		String action = (String)session.getAttribute("action");
+		Boolean isLogOn = (Boolean)session.getAttribute("isLogOn"); 
+		String action = (String)session.getAttribute("action"); //${contextPath}/order/orderEachGoods.do";
 		
-		if (isLogOn==null || isLogOn==false) {						
-			session.setAttribute("orderInfo", odto);
+		if (isLogOn==null || isLogOn==false) {		// 로그인이 안되어 있는 경우				
+			session.setAttribute("orderInfo", odto); 
 			session.setAttribute("action", "/order/orderEachGoods.do");
 			return new ModelAndView("redirect:/member/loginForm.do");
 		}
-		else {
+		else { // 로그인이 되어 있는 경우
 			 if (action!=null && action.equals("/order/orderEachGoods.do")) {
 				orderDTO=(OrderDTO)session.getAttribute("orderInfo");
 				session.removeAttribute("action");
@@ -55,13 +60,19 @@ public class OrderController {
 			 }
 		 }
 		
-		ModelAndView mv = new ModelAndView();  			
+		ModelAndView mv = new ModelAndView();  		
+		
+		String goodsId = String.valueOf(orderDTO.getGoodsId());
+		Map<String, Object> goodsOrderList = new HashMap<String, Object>();
+		goodsOrderList.put("goodsInfo", goodsService.goodsDetail(goodsId));
+		
 		mv.setViewName("/order/orderEachGoods");
 		List<OrderDTO> myOrderList = new ArrayList<OrderDTO>();
-		myOrderList.add(odto);
-
+		myOrderList.add(orderDTO);
 		MemberDTO memberInfo = (MemberDTO)session.getAttribute("memberInfo");
 		
+		
+		session.setAttribute("goodsOrderList", goodsOrderList);
 		session.setAttribute("myOrderList", myOrderList);
 		session.setAttribute("orderer", memberInfo);
 		
@@ -89,6 +100,8 @@ public class OrderController {
 		String ordererHp = memberDTO.getHp1() + "-" + memberDTO.getHp2() + "-" + memberDTO.getHp3();
 		List<OrderDTO> myOrderList=(List<OrderDTO>)session.getAttribute("myOrderList");
 		
+		Map<String, Object> goodsOrderList=(Map<String, Object>)session.getAttribute("goodsOrderList");
+		
 		for (int i=0; i<myOrderList.size(); i++){
 			OrderDTO orderDTO = (OrderDTO)myOrderList.get(i);
 			orderDTO.setMemberId(memberId);
@@ -115,6 +128,7 @@ public class OrderController {
 		
 	    orderService.addNewOrder(myOrderList);
 		mv.addObject("myOrderInfo",receiverMap);
+		mv.addObject("goodsOrderList" , goodsOrderList);
 		mv.addObject("myOrderList", myOrderList);
 		
 		return mv;

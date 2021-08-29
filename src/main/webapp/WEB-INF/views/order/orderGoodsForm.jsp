@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"  />
 <c:set var="orderer_hp" 			 value=""/>			<!-- 주문자 휴대폰 번호 -->
 <c:set var="final_total_order_price" value="0" />		<!-- 최종 결제 금액 -->
@@ -7,6 +8,8 @@
 <c:set var="total_order_goods_qty"   value="0" />		<!-- 총 상품수 -->
 <c:set var="total_discount_price"    value="0" />		<!-- 총할인금액 -->
 <c:set var="total_delivery_price"    value="0" />		<!-- 총 배송비 -->
+<c:set var="item2" value="${goodsOrderList.goodsInfo.GoodsDTO}"/>
+<c:set var="item3" value="${goodsOrderList.goodsInfo.imageList}"/>
 
 <head>
 <style>
@@ -203,11 +206,11 @@
 		e_phone.style.visibility="hidden";
 	}
 	
-
-	function imagePopup(type) {
+	//팝업창 함수
+	function imagePopup(type) { 
 		
 		if (type == 'open') {
-			jQuery('#layer').attr('style', 'visibility:visible');	// 팝업창을 연다.
+			jQuery('#layer').attr('style', 'visibility:visible');	// 팝업창을 연다. (hidden 숨김(자신의 영역은 계속 차지), visible 보임)
 			jQuery('#layer').height(jQuery(document).height());	// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
 		}
 		else if (type == 'close') {
@@ -409,7 +412,7 @@
 		
 	}
 
-	
+	//최종결제하기 눌렀을 때 ->post로 보내고 팝업창 닫기
 	function fn_process_pay_order(){
 		
 		var formObj = document.createElement("form");
@@ -512,7 +515,7 @@
 			<c:forEach var="item" items="${myOrderList }">
 				<tr>
 					<td class="goods_image">
-					  <a href="${contextPath}/goods/goodsDetail.do?goods_id=${item.goodsId }">
+					  <a href="${contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">
 					    <img width="75" alt=""  src="${contextPath}/thumbnails.do?goodsId=${item.goodsId}&fileName=${item.goodsFileName}">
 					    <input type="hidden" id="h_goods_id" name="h_goods_id" value="${item.goodsId }" />
 					    <input type="hidden" id="h_goods_fileName" name="h_goods_fileName" value="${item.goodsFileName }" />
@@ -520,7 +523,7 @@
 					</td>
 					<td>
 					  <h2>
-					     <a href="${pageContext.request.contextPath}/goods/goods.do?command=goodsDetail&goodsId=${item.goodsId }">${item.goodsTitle }</A>
+					     <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goodsId=${item.goodsId }">${item.goodsTitle }</a>
 					      <input type="hidden" id="h_goods_title" name="h_goods_title" value="${item.goodsTitle }" />
 					  </h2>
 					</td>
@@ -528,18 +531,21 @@
 					  <h2>${item.orderGoodsQty }개</h2>
 					    <input type="hidden" id="h_order_goods_qty" name="h_order_goods_qty" value="${item.orderGoodsQty}" />
 					</td>
-					<td><h2>${item.goodsSalesPrice}원 (10% 할인)</h2></td>
-					<td><h2>0원</h2></td>
-					<td><h2>${1500 *item.orderGoodsQty}원</h2></td>
+					<td><h2>${item.goodsSalesPrice}원  <!-- 주문금액 -->
+					(<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/>%할인)</h2></td>
+					<td><h2>${item2.goodsDeliveryPrice }원</h2></td> <!-- 배송비 -->
+					<td><h2>${item2.goodsPoint*item.orderGoodsQty}P 적립</h2></td> <!-- 적립금 -->
 					<td>
-					  <h2>${item.goodsSalesPrice * item.orderGoodsQty}원</h2>
+					  <h2>${item.goodsSalesPrice * item.orderGoodsQty}원</h2> <!-- 주문합계 -->
 					  <input type="hidden" id="h_each_goods_price"  name="h_each_goods_price" value="${item.goodsSalesPrice * item.orderGoodsQty}" />
 					</td>
 			</tr>
 			
-			<c:set var="final_total_order_price" value="${final_total_order_price+ item.goodsSalesPrice* item.orderGoodsQty}" />
-			<c:set var="total_order_price"       value="${total_order_price+ item.goodsSalesPrice* item.orderGoodsQty}" />
-			<c:set var="total_order_goods_qty"   value="${total_order_goods_qty + item.orderGoodsQty }" />
+			<c:set var="final_total_order_price" value="${final_total_order_price+ item.goodsSalesPrice* item.orderGoodsQty}" /> <!--최종결제 금액 -->
+			<c:set var="total_order_price"       value="${total_order_price+item2.goodsPrice*item.orderGoodsQty}" /><!-- 총 상품금액 -->
+			<c:set var="total_order_goods_qty"   value="${total_order_goods_qty + item.orderGoodsQty }" /><!-- 총상품수 -->
+			<c:set var="total_delivery_price"   value="${total_delivery_price+item2.goodsDeliveryPrice }" /><!-- 총배송비 -->
+			<c:set var="total_discount_price"   value="${total_discount_price + (total_order_price - final_total_order_price) }" /><!-- 총할인금액 -->
 			</c:forEach>
 		</tbody>
 	</table>
@@ -661,6 +667,7 @@
 			</tboby>
 		</table>
 	</div>
+	
 	<div >
 	  <br><br>
 	   <h2>주문고객</h2>
@@ -704,10 +711,10 @@
 				</tr>
 				<tr >
 					<td>
-					   <input type="radio" id="pay_method" name="pay_method" value="휴대폰결제" onClick="fn_pay_phone()">휴대폰 결제 &nbsp;&nbsp;&nbsp;
-					   <input type="radio" id="pay_method" name="pay_method" value="카카오페이(간편결제)">카카오페이(간편결제) &nbsp;&nbsp;&nbsp; 
-					   <input type="radio" id="pay_method" name="pay_method" value="페이나우(간편결제)">페이나우(간편결제) &nbsp;&nbsp;&nbsp; 
-					   <input type="radio" id="pay_method" name="pay_method" value="페이코(간편결제)">페이코(간편결제) &nbsp;&nbsp;&nbsp;
+					   <input type="radio" id="pay_method" name="pay_method" value="휴대폰결제" onClick="fn_pay_phone()">휴대폰 결제 &nbsp;
+					   <input type="radio" id="pay_method" name="pay_method" value="카카오페이(간편결제)">카카오페이(간편결제) &nbsp;
+					   <input type="radio" id="pay_method" name="pay_method" value="페이나우(간편결제)">페이나우(간편결제) &nbsp;
+					   <input type="radio" id="pay_method" name="pay_method" value="페이코(간편결제)">페이코(간편결제) &nbsp;
 					</td>
 				</tr>
 				<tr >
@@ -799,7 +806,7 @@
    <div class="clear"></div>
 </form>
 
-<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+<!-- -------결제하기 쇼핑계속하기 버튼---------------------------------------------------------------------------------- -->
     <div class="clear"></div>
 	<br>
 	<br>
@@ -810,7 +817,7 @@
 		</a> <a href="${contextPath}/main/main.do"> 
 		   <img width="75" alt="" src="${contextPath}/resources/image/btn_shoping_continue.jpg">
 		</a>
-	
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
 <div class="clear"></div>		
 	<div id="layer" style="visibility:hidden">
 		<div id="popup_order_detail">
