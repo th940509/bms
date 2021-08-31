@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -154,7 +155,7 @@ public class AdminMemberController {
 			memberMap.put("emailstsYn", val[2]);
 		}
 		else if (modType.equals("address")){
-			val = value.split(",");
+			val = value.split("/");
 			memberMap.put("zipcode",val[0]);
 			memberMap.put("roadAddress",val[1]);
 			memberMap.put("jibunAddress", val[2]);
@@ -210,10 +211,15 @@ public class AdminMemberController {
 	    headStyle.setBorderBottom(BorderStyle.THIN);
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
+	    
+	    //폰트 설정
+	    Font font = wb.createFont();
+	    font.setFontName("휴먼명조");
+	    headStyle.setFont(font);
 
 
 	    // 노란색 배경
-	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 	    // 가운데 정렬
@@ -284,18 +290,23 @@ public class AdminMemberController {
 	        cell = row.createCell(0);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(memberDTO.getMemberId());
+	        
 	        cell = row.createCell(1);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(memberDTO.getMemberName());
+	        
 	        cell = row.createCell(2);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(memberDTO.getHp1() + "-" + memberDTO.getHp2() + "-" + memberDTO.getHp3());
+	        
 	        cell = row.createCell(3);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(memberDTO.getRoadAddress() + " " + memberDTO.getJibunAddress() + " " + memberDTO.getNamujiAddress());
+	        
 	        cell = row.createCell(4);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(joinSdf.format(memberDTO.getJoinDate()));
+	        
 	        cell = row.createCell(5);
 	        cell.setCellStyle(bodyStyle);
 	        if (memberDTO.getDelYn().equals("N"))  cell.setCellValue("활동중");

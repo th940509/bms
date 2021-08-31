@@ -35,7 +35,7 @@
 					(<fmt:formatNumber value="${100-(item.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/>%할인)</h2></h2></td>
 				<td><h2>${item2.goodsDeliveryPrice }원</h2></td>
 				<td><h2>${item2.goodsPoint*item.orderGoodsQty}P 적립</h2></td>
-				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원</h2></td>
+				<td><h2>${(item.orderGoodsQty *item.goodsSalesPrice)+item2.goodsDeliveryPrice}원</h2></td>
 			</tr>
 			</c:forEach>
 		</tbody>

@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -140,10 +141,15 @@ public class AdminOrderController {
 	    headStyle.setBorderBottom(BorderStyle.THIN);
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
+	    
+	    //폰트 설정
+	    Font font = wb.createFont();
+	    font.setFontName("휴먼명조");
+	    headStyle.setFont(font);
 
 
-	    // 노란색 배경
-	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    // 초록 배경
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 	    // 가운데 정렬

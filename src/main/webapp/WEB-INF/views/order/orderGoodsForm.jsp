@@ -536,12 +536,12 @@
 					<td><h2>${item2.goodsDeliveryPrice }원</h2></td> <!-- 배송비 -->
 					<td><h2>${item2.goodsPoint*item.orderGoodsQty}P 적립</h2></td> <!-- 적립금 -->
 					<td>
-					  <h2>${item.goodsSalesPrice * item.orderGoodsQty}원</h2> <!-- 주문합계 -->
+					  <h2>${(item.goodsSalesPrice * item.orderGoodsQty)+item2.goodsDeliveryPrice}원</h2> <!-- 주문합계 -->
 					  <input type="hidden" id="h_each_goods_price"  name="h_each_goods_price" value="${item.goodsSalesPrice * item.orderGoodsQty}" />
 					</td>
 			</tr>
 			
-			<c:set var="final_total_order_price" value="${final_total_order_price+ item.goodsSalesPrice* item.orderGoodsQty}" /> <!--최종결제 금액 -->
+			<c:set var="final_total_order_price" value="${final_total_order_price+ (item.goodsSalesPrice* item.orderGoodsQty)+item2.goodsDeliveryPrice}" /> <!--최종결제 금액 -->
 			<c:set var="total_order_price"       value="${total_order_price+item2.goodsPrice*item.orderGoodsQty}" /><!-- 총 상품금액 -->
 			<c:set var="total_order_goods_qty"   value="${total_order_goods_qty + item.orderGoodsQty }" /><!-- 총상품수 -->
 			<c:set var="total_delivery_price"   value="${total_delivery_price+item2.goodsDeliveryPrice }" /><!-- 총배송비 -->

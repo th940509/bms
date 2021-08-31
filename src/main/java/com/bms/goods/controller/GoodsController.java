@@ -49,6 +49,24 @@ public class GoodsController {
 		else if(searchWord.equals("newbook")) {
 			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
 		}
+		else if(searchWord.equals("컴퓨터와 인터넷")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("디지털 기기")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("여행")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("어린이")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("소설")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
+		else if(searchWord.equals("시")) {
+			mv.addObject("goodsList", goodsService.keywordSearch(searchWord));
+		}
 		else {
 			mv.addObject("goodsList", goodsService.searchGoods(searchWord));
 		}

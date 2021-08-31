@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import com.bms.member.dto.MemberDTO;
 import com.bms.member.dto.SessionConfigVO;
 import com.bms.member.service.MemberService;
 
+
 @Controller("memberController")
 @RequestMapping(value="/member")
 public class MemberController {
@@ -37,7 +39,7 @@ public class MemberController {
 	@Autowired
 	private MemberDTO memberDTO;
 	
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
@@ -63,12 +65,12 @@ public class MemberController {
             //접속자 정보 get
             Map<String,Object> result = memberService.getUserInfo(kakaoToken);
             System.out.println("컨트롤러 출력"+result.get("nickname")+result.get("profile_image"));
-            //SessionConfigVO configVO =new SessionConfigVO();
-           //configVO.setNickname((String)result.get("nickname"));
-            //configVO.setProfile_img((String)result.get("profile_image"));
+           // SessionConfigVO configVO =new SessionConfigVO();
+            //configVO.setNickname((String)result.get("nickname"));
+           //configVO.setProfile_img((String)result.get("profile_image"));
+            //session.setAttribute("sessionConfigVO", configVO);
             String nickname = (String) result.get("nickname");
             String profile_image = (String)result.get("profile_image");
-            //session.setAttribute("sessionConfigVO", configVO);
             session.setAttribute("nickname", nickname);
             session.setAttribute("profile_image", profile_image);
             session.setAttribute("isLogOn", true);
@@ -77,6 +79,9 @@ public class MemberController {
         return "redirect:/";
     }
 
+	
+	
+	
 	
 	
 	@RequestMapping(value="/login.do" , method = RequestMethod.POST)
@@ -108,8 +113,8 @@ public class MemberController {
 		
 	}
 	
-
 	
+
 	
 	@RequestMapping(value="/logout.do" , method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -117,21 +122,17 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("nickname") != null && session.getAttribute("profile_image") != null) {
-			session.setAttribute("isLogon", false);
-			String kakaoToken = (String)session.getAttribute("kakaoToken");
-			memberService.getLogout(kakaoToken);
+		session.setAttribute("isLogon", false);
+		String kakaoToken = (String)session.getAttribute("kakaoToken");
+		
+		memberService.getLogout(kakaoToken);
+		
+		//session.setAttribute("SessionConfigVO", null);
+		session.removeAttribute("nickname");
+		session.removeAttribute("profile_image");
+		session.removeAttribute("kakaoToken");
 			
-			session.removeAttribute("nickname");
-			session.removeAttribute("profile_image");
-			session.removeAttribute("kakaoToken");
 			
-			
-			
-			mv.setViewName("redirect:/main/main.do");
-			return mv;
-		}
-		session.setAttribute("isLogOn", false); // 로그인 false
 		session.removeAttribute("memberInfo"); // 세션 끊기
 		
 		
@@ -140,6 +141,9 @@ public class MemberController {
 		return mv;
 	
 	}
+	
+	
+
 	
 	
 	@RequestMapping(value="/addMember.do" ,method = RequestMethod.POST)
@@ -180,9 +184,10 @@ public class MemberController {
 	public ResponseEntity<String> overlapped(@RequestParam("id") String id) throws Exception{
 		return new ResponseEntity<String>(memberService.overlapped(id), HttpStatus.OK);
 	}
+	
 
 	@RequestMapping(value="/loginForm.do" , method = RequestMethod.GET)
-	public ModelAndView loginForm() throws Exception {
+	public ModelAndView loginForm(Model model,HttpSession session) throws Exception {
 		return new ModelAndView("/member/loginForm");
 	}
 

@@ -44,11 +44,13 @@ public class MainController {
 		HttpSession session = request.getSession();
 		session.setAttribute("side_menu", "user");
 		
+		if(session.getAttribute("nickname") != null && session.getAttribute("profile_image") != null) {
+			//mv.addObject("sessionConfigVO",session.getAttribute("sessionConfigVO"));
+			mv.addObject("nickname", session.getAttribute("nickname"));
+			mv.addObject("profile_image", session.getAttribute("profile_image"));
+			mv.addObject("isLogOn", session.getAttribute("isLogOn"));
+		}
 		
-		//mv.addObject("sessionConfigVO",session.getAttribute("sessionConfigVO"));
-		mv.addObject("nickname", session.getAttribute("nickname"));
-		mv.addObject("profile_image", session.getAttribute("profile_image"));
-		mv.addObject("isLogOn", session.getAttribute("isLogOn"));
 		
 		Map<String,List<GoodsDTO>> goodsMap = goodsService.listGoods();
 		mv.addObject("goodsMap", goodsMap);

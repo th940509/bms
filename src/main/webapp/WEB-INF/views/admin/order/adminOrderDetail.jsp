@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="orderList"  value="${orderMap.orderList}"  />
 <c:set var="deliveryInfo"  value="${orderMap.deliveryInfo}"  />
@@ -52,10 +53,30 @@
 					  </h2>
 					</td>
 					<td><h2>${item.orderGoodsQty}개</h2></td>
-					<td><h2>${item.orderGoodsQty * item.goodsSalesPrice}원 (10% 할인)</h2></td>
-					<td><h2>0원</h2></td>
-					<td><h2>${1500 * item.orderGoodsQty }원</h2></td>
-					<td><h2>${item.orderGoodsQty * item.goodsSalesPrice}원</h2></td>
+					<td>
+					<c:forEach var="item2" items="${orderMap.deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2>${item.orderGoodsQty *item.goodsSalesPrice}원 
+						<fmt:formatNumber value="${100-(item2.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/> %할인</h2><!-- 주문금액 / 할인률 (소수점1자리까지)-->
+					</c:if>
+					</c:forEach>
+					</td>
+					<td>
+					<c:forEach var="item2" items="${orderMap.deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2> ${item2.goodsDeliveryPrice }원</h2>
+						<c:set var="goodsDeliveryPrice" value="${item2.goodsDeliveryPrice }"/>
+					</c:if>
+					</c:forEach>
+					</td>
+					<td>
+					<c:forEach var="item2" items="${orderMap.deliveryPrice }">
+					<c:if test="${item.goodsId eq item2.goodsId }">
+						<h2>${item2.goodsPoint * item.orderGoodsQty }원</h2>
+					</c:if>
+					</c:forEach>
+					</td>
+					<td><h2>${(item.orderGoodsQty * item.goodsSalesPrice)+goodsDeliveryPrice}원</h2></td>
 				</tr>
 			</c:forEach>
 		</tbody>

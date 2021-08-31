@@ -34,9 +34,9 @@
 	function fn_modify_order_state(orderId,select_id){
 		
 		var s_deliveryState = document.getElementById(select_id);
-	    
-		var index = s_deliveryState.selectedIndex;
-	    var value = s_deliveryState[index].value;
+	    // id="s_deliveryState${i.index }"
+		var index = s_deliveryState.selectedIndex; // 선택되어 있는 index 가져오기
+	    var value = s_deliveryState[index].value;  // 선택되어 있는 index의 값 대입
 		 
 		$.ajax({
 			type : "post",

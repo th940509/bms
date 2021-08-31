@@ -37,5 +37,6 @@
 			<input type="submit" name="search" class="btn1" value="검 색" >
 		</form>
 	</div>
+	
 </body>
 </html>

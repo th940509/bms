@@ -157,7 +157,7 @@
 			value_email2 = email2.value;
 			if (emailstsYn.checked)	value_emailstsYn = "Y";
 			else					value_emailstsYn = "N";
-			value = value_email1 + "," + value_email2 + "," + value_emailsts_yn;
+			value = value_email1 + "/" + value_email2 + "/" + value_emailsts_yn;
 			
 		}
 		else if (attribute == 'address'){
@@ -170,7 +170,7 @@
 			value_roadAddress   = roadAddress.value;
 			value_jibunAddress  = jibunAddress.value;
 			value_namujiAddress = namujiAddress.value;
-			value = value_zipcode + "," + value_roadAddress + "," + value_jibunAddress + "," + value_namujiAddress;
+			value = value_zipcode + "," + value_jibunAddress + "," + value_roadAddress + "," + value_namujiAddress;
 		}
 	 	
 		$.ajax({
@@ -388,8 +388,8 @@
 					    <input type="button" class="btn btn-outline-primary btn-sm" onclick="javascript:execDaumPostcode()" value="검색">
 					  <br><br>
 					  <p> 
-						  지번 주소:<br><input type="text" id="roadAddress"  name="roadAddress" class="form-control" value="${memberInfo.roadAddress }"><br>
-						  도로명 주소: <input type="text" id="jibunAddress" name="jibunAddress" class="form-control" value="${memberInfo.jibunAddress }"><br>
+						  지번 주소:<br><input type="text" id="roadAddress"  name="roadAddress" class="form-control" value="${memberInfo.jibunAddress }"><br>
+						  도로명 주소: <br><input type="text" id="jibunAddress" name="jibunAddress" class="form-control" value="${memberInfo.roadAddress }"><br>
 						  나머지 주소: <input type="text"  name="namujiAddress" class="form-control" value="${memberInfo.namujiAddress }" />
 						   <span id="guide" style="color:#999"></span>
 					   </p>

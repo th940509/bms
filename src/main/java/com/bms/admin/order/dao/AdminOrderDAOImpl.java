@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.bms.goods.dto.GoodsDTO;
 import com.bms.member.dto.MemberDTO;
 import com.bms.order.dto.OrderDTO;
 
@@ -36,5 +37,19 @@ public class AdminOrderDAOImpl  implements AdminOrderDAO{
 		return sqlSession.selectOne("mapper.admin.order.selectOrderer" , memberId);
 		
 	}
+
+
+	public List<GoodsDTO> deliveryPrice(int orderId) throws DataAccessException {
+		return sqlSession.selectList("mapper.admin.order.deliveryPrice" , orderId);
+	}
+
+
+	
+
+	
+	
+	
+
+
 
 }

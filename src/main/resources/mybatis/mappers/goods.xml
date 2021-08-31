@@ -79,7 +79,7 @@
          					  INNER JOIN T_GOODS_DETAIL_IMAGE D
         							  ON G.GOODS_ID = D.GOODS_ID 
         							 AND D.FILE_TYPE = 'main_image' 
-        							 AND G.GOODS_STATUS = #{searchWord}
+        							 AND (G.GOODS_STATUS = #{searchWord} or G.GOODS_SORT = #{searchWord})
             	ORDER BY 
             			G.GOODS_CREDATE DESC) T
 		]]>

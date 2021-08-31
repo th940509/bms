@@ -93,10 +93,10 @@
         WHERE 
            		TO_CHAR(GOODS_CREDATE,'YYYY-MM-DD') BETWEEN #{beginDate} AND #{endDate} 
            		<if test="search_type == 'all' and search_type != null">
-       				AND GOODS_ID 			LIKE '%'|| #{search_word} || '%'
+       				AND (GOODS_ID 			LIKE '%'|| #{search_word} || '%'
        				OR  GOODS_TITLE 		LIKE '%'|| #{search_word} || '%'
        				OR  GOODS_WRITER 		LIKE '%'|| #{search_word} || '%'
-       				OR  GOODS_PUBLISHER 	LIKE '%'|| #{search_word} || '%'
+       				OR  GOODS_PUBLISHER 	LIKE '%'|| #{search_word} || '%')
      				</if>
            		<if test="search_type == 'goods_id' and search_type != null">
        				AND GOODS_ID LIKE '%'|| #{search_word} || '%'

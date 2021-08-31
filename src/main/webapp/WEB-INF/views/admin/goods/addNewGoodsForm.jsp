@@ -64,7 +64,6 @@
 							<select name="goodsSort" class="form-control" style="padding-bottom:0; padding-top:0; height:35px">
 								<option value="컴퓨터와 인터넷" selected>컴퓨터와 인터넷
 								<option value="디지털 기기">디지털 기기
-								<option value="IT">IT
 								<option value="소설">소설
 								<option value="시">시
 								<option value="여행">여행

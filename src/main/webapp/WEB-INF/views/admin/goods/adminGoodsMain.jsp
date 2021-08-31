@@ -169,7 +169,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="${i}">0${i}</option>
+					              <option value="0${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					              <option value="${i}">${i}</option>
@@ -188,7 +188,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="${i}">0${i}</option>
+					              <option value="0${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					              <option value="${i}">${i}</option>
@@ -220,7 +220,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i <10}">
-					              <option value="${i}">0${i}</option>
+					              <option value="0${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					             <option value="${i}">${i}</option>
@@ -239,7 +239,7 @@
 					        <c:otherwise>
 					          <c:choose>
 					            <c:when test="${i<10}">
-					              <option value="${i}">0${i}</option>
+					              <option value="0${i}">0${i}</option>
 					            </c:when>
 					            <c:otherwise>
 					            <option value="${i}">${i}</option>

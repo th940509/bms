@@ -36,7 +36,7 @@
 					<c:forEach var="item2" items="${deliveryPrice }">
 					<c:if test="${item.goodsId eq item2.goodsId }">
 						<h2>${item.orderGoodsQty *item.goodsSalesPrice}원 
-						<fmt:formatNumber value="${100-(item2.goodsSalesPrice*100) div item2.goodsPrice  }" pattern=".0"/> %할인</h2><!-- 주문금액 / 할인률 (소수점1자리까지)-->
+						<fmt:formatNumber value="${100-(item2.goodsSalesPrice*100) div item2.goodsPrice  }" pattern="00"/> %할인</h2><!-- 주문금액 / 할인률 (소수점1자리까지)-->
 					</c:if>
 					</c:forEach>
 				</td>
@@ -44,6 +44,7 @@
 					<c:forEach var="item2" items="${deliveryPrice }">
 					<c:if test="${item.goodsId eq item2.goodsId }">
 						<h2> ${item2.goodsDeliveryPrice }원</h2>
+						<c:set var="goodsDeliveryPrice" value="${item2.goodsDeliveryPrice }"/>
 					</c:if>
 					</c:forEach>
 				</td>
@@ -54,7 +55,7 @@
 					</c:if>
 					</c:forEach>
 				</td> 
-				<td><h2>${item.orderGoodsQty *item.goodsSalesPrice}원</h2></td> <!-- 주문금액합계 -->
+				<td><h2>${(item.orderGoodsQty *item.goodsSalesPrice)+goodsDeliveryPrice}원</h2></td> <!-- 주문금액합계 -->
 			</tr>
 			</c:forEach>
 		</tbody>

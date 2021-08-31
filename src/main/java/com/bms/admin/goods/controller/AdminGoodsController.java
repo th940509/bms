@@ -360,7 +360,7 @@ public class AdminGoodsController {
 	    font.setFontName("휴먼명조");
 	    headStyle.setFont(font);
 
-	    // 노란색 배경
+	    // 초록배경
 	    headStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 

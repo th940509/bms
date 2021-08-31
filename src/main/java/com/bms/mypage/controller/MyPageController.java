@@ -44,11 +44,12 @@ public class MyPageController  {
 		
 		HttpSession session = request.getSession(); // 세션객체 생성
 		
-		session = request.getSession();
+		session = request.getSession(); 
 		session.setAttribute("side_menu", "my_page"); // tiles의 side
 		
 		ModelAndView mv = new ModelAndView("/mypage/myPageMain"); // 괄호 안의 jsp 페이지로 이동
 		memberDTO=(MemberDTO)session.getAttribute("memberInfo"); // 로그인한 회원 정보 DTO 대입
+		
 		
 		String memberId = "";
 		if (memberDTO != null) 	memberId = memberDTO.getMemberId(); // memberDTO가 null이 아닐때 id를 가져와 memberId에 대입
@@ -189,10 +190,10 @@ public class MyPageController  {
 			memberMap.put("emailstsYn", val[2]);
 		}
 		else if (attribute.equals("address")){
-			val = value.split(",");
+			val = value.split("/");
 			memberMap.put("zipcode",val[0]);
-			memberMap.put("roadAddress",val[1]);
-			memberMap.put("jibunAddress", val[2]);
+			memberMap.put("jibunAddress",val[1]);
+			memberMap.put("roadAddress", val[2]);
 			memberMap.put("namujiAddress", val[3]);
 		}
 		else {

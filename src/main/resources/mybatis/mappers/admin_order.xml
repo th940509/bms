@@ -10,8 +10,8 @@
           WHERE 
           			TO_CHAR(PAY_ORDER_TIME,'yyyy-mm-dd') BETWEEN #{beginDate} AND #{endDate}
 	                <if test="search_type=='all'">
-	                  AND ORDERER_NAME 	like '%'|| #{search_word} || '%'
-	                   OR GOODS_TITLE 	like '%'|| #{search_word} || '%' 
+	                  AND (ORDERER_NAME 	like '%'|| #{search_word} || '%'
+	                   OR GOODS_TITLE 	like '%'|| #{search_word} || '%')
 	                </if>
 	                <if test="search_type=='orderer_name'">
 	                  AND ORDERER_NAME LIKE '%'|| #{search_word} || '%'
@@ -40,7 +40,7 @@
 	    SELECT 
 	    		* 
 	    FROM 
-	    		T_SHOPPING_ORDER
+	    		T_SHOPPING_ORDER O
         WHERE 
            		ORDER_ID = #{orderId}
 	</select>	
@@ -54,5 +54,21 @@
 		WHERE 
 				MEMBER_ID = #{memberId}
 	</select>	
+	
+	<select id="deliveryPrice" resultType="GoodsDTO" parameterType="int">
+	
+		<![CDATA[
+			SELECT
+					G.*
+			FROM
+					T_SHOPPING_ORDER  O
+					      INNER JOIN T_SHOPPING_GOODS  G
+				                  ON O.GOODS_ID = G.GOODS_ID
+			                     AND O.ORDER_ID = #{orderId}
+			
+		]]>
+	</select>
+	
+
 	
 </mapper>

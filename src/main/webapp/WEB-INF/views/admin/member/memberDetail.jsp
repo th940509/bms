@@ -144,7 +144,7 @@
 			value_jibunAddress  = jibunAddress.value;
 			value_namujiAddress = namujiAddress.value;
 			
-			value = value_zipcode + "," + value_roadAddress + "," + value_jibunAddress + "," + value_namujiAddress;
+			value = value_zipcode + "/" + value_roadAddress + "/" + value_jibunAddress + "/" + value_namujiAddress;
 		}
 	 
 		$.ajax({

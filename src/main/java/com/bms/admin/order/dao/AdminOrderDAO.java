@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.bms.goods.dto.GoodsDTO;
 import com.bms.member.dto.MemberDTO;
 import com.bms.order.dto.OrderDTO;
 
@@ -14,5 +15,5 @@ public interface AdminOrderDAO {
 	public void updateDeliveryState(Map<String, String> deliveryMap) throws DataAccessException;
 	public List<OrderDTO> selectOrderDetail(int orderId) throws DataAccessException;
 	public MemberDTO selectOrderer(String memberId) throws DataAccessException;
-	
+	public List<GoodsDTO> deliveryPrice(int orderId) throws DataAccessException;
 }

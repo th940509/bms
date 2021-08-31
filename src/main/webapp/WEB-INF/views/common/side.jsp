@@ -35,11 +35,13 @@
 				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=bestseller">베스트셀러</a></li>
 				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=steadyseller">스테디셀러</a></li>
 				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=newbook">신간</a></li>
-				<li>-----------------</li>
-				<li><a href="${contextPath}/goods/searchGoods.do">it</a></li>
-				<li><a href="${contextPath}/goods/searchGoods.do">소설/시</a></li>
-				<li><a href="${contextPath}/goods/searchGoods.do">여행</a></li>
-				<li><a href="${contextPath}/goods/searchGoods.do">어린이</a></li>
+				<hr size="2px" noshade >
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=컴퓨터와 인터넷">컴퓨터와 인터넷</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=디지털 기기">디지털 기기</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=소설">소설</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=시">시</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=여행">여행</a></li>
+				<li><a href="${contextPath}/goods/searchGoods.do?searchWord=어린이">어린이</a></li>
 			</ul>
 		</li>
 		<br><br><br>

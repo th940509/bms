@@ -11,8 +11,8 @@
           WHERE 
            		TO_CHAR(JOIN_DATE,'yyyy-mm-dd') BETWEEN #{beginDate} AND #{endDate} 
            		<if test="search_type == 'all' and search_type != null">
-       				AND MEMBER_NAME LIKE '%'|| #{search_word} || '%'
-       				OR  MEMBER_ID 	LIKE '%'|| #{search_word} || '%'
+       				AND (MEMBER_NAME LIKE '%'|| #{search_word} || '%'
+       				OR  MEMBER_ID 	LIKE '%'|| #{search_word} || '%')
      				</if>
            		<if test="search_type == 'memberName' and search_type != null">
        				AND MEMBER_NAME LIKE '%'|| #{search_word} || '%'

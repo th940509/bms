@@ -4,18 +4,17 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%request.setCharacterEncoding("UTF-8");%>  
 
-<div>
-		<c:if test="${nickname ne null and profile_image ne null}">
-                    <c:if test="${isLogOn eq true }">
-              		<img class="profile_div" align="right" src="<c:out value='${profile_image}'/>" width=20 height=20/>
+
+      <c:if test="${isLogOn eq true }">
+					<c:if test="${nickname ne null and profile_image ne null}">
 	                    <div align="right" >
 	                    <img src="${contextPath}/resources/image/kakaobtn.png" style="width:10px;">
-	                    <a style="color:#FFD732;text-decoration:none;font-size:0.3em;"class="link_path">KAKAO계정 로그인 '${nickname}님' 접속중 </a>
+	                    <a style="color:#8B6331;text-decoration:none;font-size:0.3em;"class="link_path">KAKAO계정 로그인 '${nickname}님' 접속중 </a>
 	                    </div>
-                    <span id="count" class="badge bg-theme"></span>
                     </c:if>
-          </c:if>
-</div>		
+      </c:if>
+	
+		
             
 <div id="ad_main_banner">
 	<ul class="bjqs"> <!-- 맨 위 1번째 배너 -->
