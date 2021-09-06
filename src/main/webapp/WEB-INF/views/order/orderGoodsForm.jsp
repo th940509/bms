@@ -895,7 +895,7 @@
 				   </tr>
 				   <tr>
 					  <td width=200px>
-					     받는사람 유선번화번호:
+					     받는사람 유선전화번호:
 					 </td>
 					 <td>
 					      <p id="p_receiver_tel_num">배송방법</p>

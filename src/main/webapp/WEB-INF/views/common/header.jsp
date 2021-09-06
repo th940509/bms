@@ -4,7 +4,7 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}" />
 <body>
 	<div id="logo">
-	<a href="${contextPath}/main/main.do"> <!-- 로그 클릭 시 메인으로 이동 -->
+	<a href="${contextPath}/main/main.do"> <!-- 로고 클릭 시 메인으로 이동 -->
 		<img width="176" height="80" alt="bms_logo" src="${contextPath}/resources/image/bms_logo2.png">
 		</a>
 	</div>
@@ -21,6 +21,10 @@
 			 </c:when>
 		     <c:when test="${isLogOn==true and not empty nickname and not empty profile_image }">
 			   <li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
+			   <li><a href="${contextPath}/mypage/myPageMain.do">마이페이지</a></li>
+			 </c:when>
+		     <c:when test="${isLogOn==true and not empty naverusername}">
+			   <li><a href="${contextPath}/member/naverlogout.do">로그아웃</a></li>
 			   <li><a href="${contextPath}/mypage/myPageMain.do">마이페이지</a></li>
 			 </c:when>
 			 <c:otherwise>

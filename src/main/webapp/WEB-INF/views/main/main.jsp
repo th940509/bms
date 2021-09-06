@@ -5,14 +5,22 @@
 <%request.setCharacterEncoding("UTF-8");%>  
 
 
-      <c:if test="${isLogOn eq true }">
-					<c:if test="${nickname ne null and profile_image ne null}">
-	                    <div align="right" >
-	                    <img src="${contextPath}/resources/image/kakaobtn.png" style="width:10px;">
-	                    <a style="color:#8B6331;text-decoration:none;font-size:0.3em;"class="link_path">KAKAO계정 로그인 '${nickname}님' 접속중 </a>
-	                    </div>
-                    </c:if>
-      </c:if>
+ <c:if test="${isLogOn eq true }">
+	<c:if test="${nickname ne null and profile_image ne null}">
+	                <div align="right" >
+	                <img src="${contextPath}/resources/image/kakaobtn.png" style="width:10px;">
+	                <a style="color:#8B6331;text-decoration:none;font-size:0.4em;"class="link_path">KAKAO계정 로그인 '${nickname}님' 접속중 </a>
+	                </div>
+     </c:if>
+</c:if>
+<c:if test="${isLogOn eq true }">
+	<c:if test="${naverusername ne null}">
+	                <div align="right" >
+	                <img src="${contextPath}/resources/image/naver_btn2.png" style="width:10px;">
+	                <a style="color:#369F36;text-decoration:none;font-size:0.4em;"class="link_path">NAVER계정 로그인 '${naverusername}님' 접속중 </a>
+	                </div>
+    </c:if>
+</c:if>
 	
 		
             

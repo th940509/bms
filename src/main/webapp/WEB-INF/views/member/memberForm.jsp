@@ -44,11 +44,110 @@
 		       },
 		    });
 		    
-		 });	
+		 });
+		
 		
 	});
+	
+	
+	
+	
+	
 </script>
 <script>
+		function CheckForm() {
+			
+			var form = document.frm;
+			
+			if(form.memberPw.value ==""){
+				alert("비밀번호를 입력하세요")
+				frm.memberPw.focus();
+				return false;
+			}
+			
+			else if(form.memberName.value ==""){
+				alert("이름을 입력하세요")
+				frm.memberName.focus();
+				return false;
+			}
+			
+			else if(document.getElementbyId("tel2").disabled != true){
+				if(form.tel2.value == ""){
+				alert("전화번호를 입력하세요")
+				frm.tel2.focus();
+				return false;}
+			}
+			
+			else if(document.getElementbyId("tel3").disabled != true){
+				if(form.tel3.value == ""){
+				alert("전화번호를 입력하세요")
+				frm.tel3.focus();
+				return false;}
+			}
+			
+			else if(form.hp2.value ==""){
+				alert("휴대폰번호를 입력하세요")
+				frm.hp2.focus();
+				return false;
+			}
+			
+			else if(form.hp3.value ==""){
+				alert("휴대폰번호를 입력하세요")
+				frm.hp3.focus();
+				return false;
+			}
+			
+			else if(form.email1.value ==""){
+				alert("이메일을 입력하세요")
+				frm.email1.focus();
+				return false;
+			}
+			
+			else if(form.email2.value ==""){
+				alert("이메일을 입력하세요")
+				frm.email2.focus();
+				return false;
+			}
+			
+			else if(form.roadAddress.values ==""){
+				alert("도로명주소를 입력하세요")
+				frm.roadAddress.focus();
+				return false;
+			}
+			
+			else if(form.jibunAddress.value ==""){
+				alert("지번주소를 입력하세요")
+				frm.jibunAddress.focus();
+				return false;
+			}
+			
+			else if(form.namujiAddress.value ==""){
+				alert("상세주소를 입력하세요")
+				frm.namujiAddress.focus();
+				return false;
+			}
+		}
+		
+		function passwordCheck() {
+			
+			if(frm.memberPw.value != frm.memberPwcheck.value) {
+				alert("입력한 비밀번호와 다릅니다 다시 입력해 주세요.")
+				return;
+			}
+		}
+		
+		function noTel(str) {
+			if(str == "none") {
+				$("#tel2").attr("value","none");
+				
+				$("#tel3").attr("value","none");
+			}
+		}
+</script>
+<script>
+
+
+	
 	function execDaumPostcode() {
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -112,7 +211,7 @@
 </style>
 </head>
 <body>
-	<form action="${contextPath}/member/addMember.do" method="post">
+	<form action="${contextPath}/member/addMember.do" method="post" name="frm" onSubmit="return CheckForm();" >
 	<h3>회원가입</h3>
 	<table class="table table-bordered table-hover">
 		<colgroup>
@@ -134,7 +233,7 @@
 	        	 <label class="small mb-1" for="memberPw">비밀번호</label>
 	        </td>
 	        <td>
-	        	<input class="form-control" id="memberPw" name="memberPw" type="password" placeholder="비밀번호를 입력하세요." />
+	        	<input class="form-control" id="memberPw" name="memberPw" type="password"  placeholder="비밀번호를 입력하세요." />
 	        </td>
         </tr>
         <tr>
@@ -142,7 +241,7 @@
 	        	 <label class="small mb-1">비밀번호 확인</label>
 	        </td>
 	        <td>
-	        	<input class="form-control" type="password" placeholder="비밀번호를 입력하세요." />
+	        	<input class="form-control" type="password" id="memberPwcheck" onchange="passwordCheck();" placeholder="비밀번호를 입력하세요." />
 	        </td>
         </tr>         
         <tr>
@@ -150,7 +249,7 @@
 	        	<label class="small mb-1" for="memberName">이름</label>
 	        </td>
 	        <td>
-	        	<input type="text" class="form-control" name="memberName"  id="memberName" maxlength="15" placeholder="이름을 입력하세요." />
+	        	<input type="text" class="form-control" name="memberName"  id="memberName" maxlength="15" placeholder="이름을 입력하세요."  />
 	        </td>
         </tr>                
 	    <tr>
@@ -221,8 +320,8 @@
 	        	<label class="small mb-1" for="tel1">집 전화번호</label>
 	        </td>
 	        <td>
-	        	<select class="form-control" id="tel1" name="tel1" style="display:inline; width:70px; padding:0">
-					<option>없음</option>
+	        	<select class="form-control" id="tel1" name="tel1" style="display:inline; width:70px; padding:0" onchange="noTel(this.value)">
+					<option value="none">없음</option>
 					<option value="02" selected>02</option>
 					<option value="031">031</option>
 					<option value="032">032</option>
@@ -241,8 +340,8 @@
 					<option value="063">063</option>
 					<option value="064">064</option>													
 				 </select> - 
-		 		<input class="form-control" size="10px" type="text" name="tel2" style="display:inline; width:100px; padding:0" > - 
-		 		<input class="form-control" size="10px" type="text" name="tel3" style="display:inline; width:100px; padding:0">
+		 		<input class="form-control" size="10px" type="text" id="tel2" name="tel2" style="display:inline; width:100px; padding:0"  > - 
+		 		<input class="form-control" size="10px" type="text" id="tel3" name="tel3" style="display:inline; width:100px; padding:0" >
 	        </td>
         </tr>                         
         <tr>
@@ -259,8 +358,8 @@
 					<option value="018">018</option>
 					<option value="019">019</option>
 				</select> - 
-				<input class="form-control"  size="10px"  type="text" name="hp2" style="display:inline; width:100px; padding:0"> - 
-				<input class="form-control"  size="10px"  type="text"name="hp3" style="display:inline; width:100px; padding:0"><br><br>
+				<input class="form-control"  size="10px"  type="text" id="hp2" name="hp2" style="display:inline; width:100px; padding:0" > - 
+				<input class="form-control"  size="10px"  type="text" id="hp3" name="hp3" style="display:inline; width:100px; padding:0" ><br><br>
 				<input class="custom-control-input" id="smsstsYn" type="checkbox" name="smsstsYn"  value="Y" checked/>
                 <label for="smsstsYn" >BMS에서 발송하는 SMS 소식을 수신합니다.</label>
 	        </td>
@@ -270,8 +369,8 @@
 	        	<label class="small mb-1" for="email1">이메일</label>
 	        </td>
 	        <td>
-	        	<input class="form-control"  size="10px"  type="text" id="email1" name="email1" style="display:inline; width:100px; padding:0"> @ 
-					<input class="form-control"  size="10px"  type="text" id="email2" name="email2" style="display:inline; width:100px; padding:0">
+	        	<input class="form-control"  size="10px"  type="text" id="email1" name="email1" style="display:inline; width:100px; padding:0" > @ 
+					<input class="form-control"  size="10px"  type="text" id="email2" name="email2" style="display:inline; width:100px; padding:0" >
 					<select class="form-control" id="select_email" name="email3" style="display:inline; width:100px; padding:0">
 						 <option value="none" selected>직접입력</option>
 						 <option value="gmail.com">gmail.com</option>
@@ -293,12 +392,12 @@
                 <div></div><br>
                 도로명 주소 : <input type="text" class="form-control" id="roadAddress"  name="roadAddress" > <br>
 				지번 주소 : <input type="text" class="form-control" id="jibunAddress" name="jibunAddress" > <br>
-				나머지 주소: <input type="text" class="form-control" name="namujiAddress"/>
+				나머지 주소: <input type="text" class="form-control" id="namujiAddress" name="namujiAddress" />
 	        </td>
         </tr>                              
         <tr>
 	        <td colspan="2">
-	        	<input type="submit" value="회원가입하기" class="btn btn-primary btn-block" >
+	        	<input type="submit" value="회원가입하기" class="btn btn-primary btn-block" id="addMemberbtn">
 	        </td>
 	    </tr>
 	    <tr>

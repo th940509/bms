@@ -56,9 +56,9 @@
 				MEMBER_ID = #{memberId} AND  
           		TO_CHAR(PAY_ORDER_TIME,'yyyy-mm-dd') BETWEEN #{beginDate} AND #{endDate} 
           		<if test="search_type=='2015' and search_type != null">
-          			AND ORDERER_NAME like '%' || #{search_word} || '%'
+          			AND (ORDERER_NAME like '%' || #{search_word} || '%'
           			OR RECEIVER_NAME like '%' || #{search_word} || '%'
-          			OR TO_CHAR(ORDER_ID) like '%' || #{search_word} || '%'
+          			OR TO_CHAR(ORDER_ID) like '%' || #{search_word} || '%')
           		</if>
           		<if test="search_type=='2013' and search_type != null">
           			AND ORDERER_NAME like '%' || #{search_word} || '%'

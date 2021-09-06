@@ -37,11 +37,20 @@
 				<td colspan="2" align="right"><input type="submit" class="btn btn-primary btn-sm" value="로그인"></td>
 			</tr>
 			<tr>
+				<!-- 카카오로그인으로 -->
 				<td colspan="2" align="center">
+				
 				<a href="${contextPath }/member/main/kakao_login.ajax">
     			<img width="200" height="45" src="${contextPath }/resources/image/kakao_login_btn.png"/>
 				</a>
+				<!-- 네이버로그인으로 -->
+				
+				<a href="${url}"> 
+				<img width="200" height="45" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/>
+				</a>
+				</td>
 			</tr>
+			
 		</table>
 			
 		<p align="center">
